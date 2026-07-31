@@ -1,0 +1,6 @@
+{
+  "name": "Gráfico Linear Rodoviário ICMWeb",
+  "description": "Gerador automatizado de Gráfico Linear de Contratos Rodoviários DNIT/ICMWeb com visualização SVG e exportação PDF A3 em alta resolução.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
