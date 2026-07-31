@@ -26,8 +26,30 @@ export default function App() {
   // Contract header, defect records, and contract segments state
   const [header, setHeader] = useState<ContractHeader | null>(SAMPLE_HEADER);
   const [defects, setDefects] = useState<DefectRecord[]>(SAMPLE_DEFECTS);
-  const [contracts, setContracts] = useState<ContractSegment[]>(SAMPLE_CONTRACTS);
+  const [contracts, setContracts] = useState<ContractSegment[]>(() => {
+    try {
+      const saved = localStorage.getItem('icmweb_contracts');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.error('Erro ao carregar contratos salvos do localStorage:', e);
+    }
+    return SAMPLE_CONTRACTS;
+  });
   const [report, setReport] = useState<ConsistencyReport | null>(createSampleConsistencyReport());
+
+  // Save contracts to localStorage whenever modified
+  useEffect(() => {
+    try {
+      localStorage.setItem('icmweb_contracts', JSON.stringify(contracts));
+    } catch (e) {
+      console.error('Erro ao salvar contratos no localStorage:', e);
+    }
+  }, [contracts]);
 
   // Mapped columns summary
   const [lastColumnsDetected, setLastColumnsDetected] = useState<Record<string, string>>({});
